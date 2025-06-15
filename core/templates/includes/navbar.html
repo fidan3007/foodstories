@@ -15,7 +15,7 @@
                 {% if request.user.is_authenticated %}
                 <li><a href="{% url 'accounts:profile' request.user.id %}" class="btn btn-black px-3 px-md-4 py-3">{{request.user.username}}</a></li>
                 {% else %}
-                <li><a href="{% url 'accounts:login' %}" class="btn btn-black px-3 px-md-4 py-3">Login</a></li>
+                <li><a href="{% url 'accounts:login' %}" class="btn btn-black px-3 px-md-4 py-3 mr-2">Login</a></li>
                 <li><a href="{% url 'accounts:register' %}" class="btn btn-black px-3 px-md-4 py-3">Register</a></li>
                 {% endif %}
                 
