@@ -48,6 +48,7 @@ class Comment(models.Model):
     # user
     text = models.TextField()
     user = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE, null=True)
+    date = models.DateTimeField(auto_now_add=True)
 
 
     def __str__(self):
