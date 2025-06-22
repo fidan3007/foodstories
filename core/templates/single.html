@@ -35,13 +35,15 @@
 
                 <div class="about-author d-flex p-4 bg-light">
                     <div class="bio mr-5">
-                        <img src="images/person_1.jpg" alt="Image placeholder" class="img-fluid mb-4">
+                        {% if user.image %}
+                        <img src="{{user.image.url}}" class="img-fluid" alt="Colorlib Template">
+                        {% else %}
+                        <img style="border: 1px solid rgb(219, 219, 219);" src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg" class="img-fluid" alt="Colorlib Template">
+                        {% endif %}
                     </div>
                     <div class="desc">
-                        <h3>George Washington</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus itaque, autem
-                            necessitatibus voluptate quod mollitia delectus aut, sunt placeat nam vero culpa sapiente
-                            consectetur similique, inventore eos fugit cupiditate numquam!</p>
+                        <h3>{{data.user.first_name}} {{data.user.last_name}}</h3>
+                        <p>{{data.user.info}}</p>
                     </div>
                 </div>
 
@@ -114,8 +116,8 @@
                             <h3><a href="{% url 'core:story_detail' rc.id %}">{{rc.title}}</a></h3>
                             <div class="meta">
                                 <div><a href="{% url 'core:story_detail' rc.id %}"><span class="icon-calendar"></span> {{rc.date | date:"F d, Y"}}</a></div>
-                                <div><a href="{% url 'core:story_detail' rc.id %}"><span class="icon-person"></span> Admin</a></div>
-                                <div><a href="{% url 'core:story_detail' rc.id %}"><span class="icon-chat"></span> 19</a></div>
+                                <div><a href="{% url 'core:story_detail' rc.id %}"><span class="icon-person"></span> {{rc.user}}</a></div>
+                                <div><a href="{% url 'core:story_detail' rc.id %}"><span class="icon-chat"></span> {{rc.comments.count}}</a></div>
                             </div>
                         </div>
                     </div>

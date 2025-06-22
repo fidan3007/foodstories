@@ -96,6 +96,20 @@ def contact(request):
     form = ContactForm()
     return render(request, 'contact.html', {'form':form})
 
+def create_story(request):
+    if request.method == 'POST':
+        form = StoryForm(request.POST, request.FILES)
+        if form.is_valid():
+            story = form.save()
+            story.user = recentquest.user
+            story.save()
+            return redirect('core:home')
+    form = StoryForm()
+    context = {
+        'form':form
+    }
+    return render(request, 'create-story.html', context)
+
 
 
 
