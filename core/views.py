@@ -21,9 +21,13 @@ def story_detail(request, id):
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
-            form.save()
+            comment = form.save()
+            comment.story = Story.objects.get(id=id)
+            comment.user = request.user
+            comment.save()
             return redirect('core:story_detail', id=id)
     story = Story.objects.get(id=id)
+    form = CommentForm()
     categories = Category.objects.all()
     recents = Story.objects.order_by('-id')[:2]
     tags = Tag.objects.all()
