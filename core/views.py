@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from core.models import *
 from core.forms import *
+from django.views.generic import UpdateView
+from django.urls import reverse_lazy
 
 
 def home(request):
@@ -85,7 +87,7 @@ def recipe_detail(request, id):
         'tags':tags,
         'recent':recents
     }
-    return render(request,'single.html', context)
+    return render(request,'single-recipe.html', context)
 
 def contact(request):
     if request.method == 'POST':
@@ -101,14 +103,56 @@ def create_story(request):
         form = StoryForm(request.POST, request.FILES)
         if form.is_valid():
             story = form.save()
-            story.user = recentquest.user
+            story.user = request.user
             story.save()
-            return redirect('core:home')
+            return redirect('accounts:profile', id=request.user.id)
     form = StoryForm()
     context = {
         'form':form
     }
     return render(request, 'create-story.html', context)
+
+def create_recipe(request):
+    if request.method == 'POST':
+        form = RecipeForm(request.POST, request.FILES)
+        if form.is_valid():
+            recipe = form.save()
+            recipe.user = request.user
+            recipe.save()
+            return redirect(f'/accounts/profile/{request.user.id}/#resept')
+    form = RecipeForm()
+    context = {
+        'form':form
+    }
+    return render(request, 'create-recipe.html', context)
+
+class EditStory(UpdateView):
+    template_name = "create-story.html"
+    model = Story
+    form_class = StoryForm
+    
+    def get_success_url(self):
+        return reverse_lazy('accounts:profile', args=[self.request.user.id])
+
+class EditRecipe(UpdateView):
+    template_name = "create-recipe.html"
+    model = Recipe
+    form_class = RecipeForm
+    
+    def get_success_url(self):
+        return reverse_lazy('accounts:profile', args=[self.request.user.id])
+
+def delete_story(request, id):
+    story = Story.objects.get(id=id)
+    story.delete()
+    return redirect('accounts:profile', id=request.user.id)
+
+def delete_recipe(request, id):
+    recipe = Recipe.objects.get(id=id)
+    recipe.delete()
+    return redirect('accounts:profile', id=request.user.id)
+
+
 
 
 

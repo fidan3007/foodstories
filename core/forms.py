@@ -18,8 +18,8 @@ class StoryForm(forms.ModelForm):
         fields = ['title', 'desription', 'text', 'image', 'category', 'tags']
         widgets = {
             'title': forms.TextInput(attrs={'class':'form-control','placeholder':'title'}),
-            'desription': forms.TextInput(attrs={'class':'form-control','placeholder':'desription'}),
-            'text': forms.TextInput(attrs={'class':'form-control','placeholder':'text'}),
+            'desription': forms.Textarea(attrs={'class':'form-control','placeholder':'desription'}),
+            'text': forms.Textarea(attrs={'class':'form-control','placeholder':'text'}),
             'images': forms.FileInput(attrs={'class':'form-control','placeholder':'image'}),
             'category': forms.Select(attrs={'class':'form-control','placeholder':'category'}),
             'tags': forms.SelectMultiple(attrs={'class':'form-control','placeholder':'tags'}),
@@ -31,4 +31,16 @@ class CommentForm(forms.ModelForm):
         fields = ['text',]
         widgets = {
             'text': forms.Textarea(attrs={'class':'form-control','placeholder':'Comment'}),
+        }
+
+class RecipeForm(forms.ModelForm):
+    class Meta:
+        model = Recipe
+        fields = ['title', 'desription', 'text', 'image']
+        widgets = {
+            'title': forms.TextInput(attrs={'class':'form-control','placeholder':'title'}),
+            'desription': forms.Textarea(attrs={'class':'form-control','placeholder':'desription'}),
+            'text': forms.Textarea(attrs={'class':'form-control','placeholder':'text'}),
+            'images': forms.FileInput(attrs={'class':'form-control','placeholder':'image'}),
+            
         }

@@ -20,14 +20,14 @@
                         </div>
                         <div class="sidebar-box ftco-animate user-profile">
 
-                            <a href="single.html" class="btn btn-hover-color py-2">Edit Profile</a>
+                            <a href="{% url 'accounts:edit_profile' request.user.id%}" class="btn btn-hover-color py-2">Edit Profile</a>
 
                         </div>
                         <div class="sidebar-box ftco-animate user-profile">
-                            <a href="single.html" class="btn btn-hover-color py-2">Create story </a>
+                            <a href="{% url 'core:create_story' %}" class="btn btn-hover-color py-2">Create story </a>
                         </div>
                         <div class="sidebar-box ftco-animate user-profile">
-                            <a href="single.html" class="btn btn-hover-color py-2">Create recipe </a>
+                            <a href="{% url 'core:create_recipe' %}" class="btn btn-hover-color py-2">Create recipe </a>
                         </div>
                         <div class="sidebar-box ftco-animate user-profile pb-4">
                             <form method="post" action="{% url 'accounts:logout' %}">
@@ -41,7 +41,7 @@
                 <div class="col-lg-9">
                     <div class="row">
                         <div class="col-md-12 heading-section ftco-animate">
-                            <h2 class="mb-4"><span>My stories and recipes</span></h2>
+                            <h2 class="mb-4"><span>My stories</span></h2>
                         </div>
                     </div>
                     <div class="row">
@@ -51,8 +51,8 @@
                                 <a class="img-2">
 
                                     <div class="user-events__edit">
-                                        <button type="button" class="edit-event"><i class="fa fa-edit" aria-hidden="true"></i></button>
-                                        <button type="button" class="delete-event"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                        <a style="color: white;" href="{% url 'core:edit_story' story.id%}" type="button" class="edit-event"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                        <button type="button" class="delete-event"data-toggle="modal" data-target="#exampleModal{{story.id}}"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                     </div>
 
                                     <img src="{{story.image.url}}" class="img-fluid" alt="Colorlib Template">
@@ -67,6 +67,31 @@
                             </div>
                         </div>
                         {% endfor %}
+                        <div class="col-md-12 heading-section ftco-animate">
+                            <h2 class="mb-4" id="resept"><span>My recipes</span></h2>
+                        </div>
+                        {% for recipe in user.recipes.all %}
+                        <div class="col-md-4 ftco-animate">
+                            <div class="blog-entry">
+                                <a class="img-2">
+
+                                    <div class="user-events__edit">
+                                        <a style="color: white;" href="{% url 'core:edit_recipe' recipe.id%}" type="button" class="edit-event"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                        <button type="button" class="delete-event"data-toggle="modal" data-target="#recipeModal{{recipe.id}}"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                    </div>
+
+                                    <img src="{{recipe.image.url}}" class="img-fluid" alt="Colorlib Template">
+                                </a>
+                                <div class="text pt-3">
+                                    <p class="meta d-flex"><span class="pr-3">{{recipe.category}}</span><span class="ml-auto pl-3">{{recipe.date | date:"M ,d ,Y"}}</span>
+                                    </p>
+                                    <h3><a href="{% url 'core:recipe_detail' recipe.id %}">{{recipe.title}}</a></h3>
+                                    <p class="mb-0"><a href="{% url 'core:recipe_detail' recipe.id %}" class="btn btn-black py-2">Read More <span
+                                        class="icon-arrow_forward ml-4"></span></a></p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
 
@@ -74,4 +99,47 @@
             </div>
         </div>
     </section>
+    {% for story in user.stories.all %}
+    <div class="modal fade" id="exampleModal{{story.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete Story?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete "{{story.title}}"?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <a style="color: white;" href="{%url 'core:delete_story' story.id%}" type="button" class="btn btn-primary">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+    {% endfor %}
+
+{% for recipe in user.recipes.all %}
+    <div class="modal fade" id="recipeModal{{recipe.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete Recipe?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete "{{recipe.title}}"?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <a style="color: white;" href="{%url 'core:delete_recipe' recipe.id%}" type="button" class="btn btn-primary">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+    {% endfor %}
 {% endblock %}
