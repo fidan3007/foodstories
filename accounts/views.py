@@ -33,7 +33,12 @@ class EditProfile(UpdateView):
         return reverse_lazy('accounts:profile', args=[self.request.user.id])
 
 class ForgetPassword(PasswordResetView):
-    template_name= "forget_password.html"
+    template_name= "forget-password.html"
     success_url = reverse_lazy('accounts:login')
-    form_class = ForgetPasswordForm
+    form_class = ForgotPasswordResetForm
     email_template_name = "forget-password-email.html"
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = "change-password.html"
+    success_url = reverse_lazy('accounts:login')
+    form_class = ForgotPasswordConfirmForm
