@@ -43,7 +43,12 @@ def story_detail(request, id):
     return render(request, 'single.html', context)
 
 def about(request):
-    return render(request, 'about.html')
+    categories = Category.objects.all()
+    context = {
+        'categories': categories
+    }
+    return render(request, 'about.html', context)
+
 
 
 def stories(request):
@@ -96,7 +101,12 @@ def contact(request):
             form.save()
             return redirect('/')
     form = ContactForm()
-    return render(request, 'contact.html', {'form':form})
+    categories = Category.objects.all()
+    context = {
+        'categories':categories,
+        'form':form
+    }
+    return render(request, 'contact.html', context)
 
 def create_story(request):
     if request.method == 'POST':

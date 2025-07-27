@@ -58,8 +58,8 @@ class ForgotPasswordResetForm(PasswordResetForm):
         }
 
 class ForgotPasswordConfirmForm(SetPasswordForm):
-    new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Password'}))
-    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Password'}))
+    new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'New Password'}))
+    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Confirm New Password'}))
     class Meta:
         model = User
         fields = ['new-password1', 'new_password2']

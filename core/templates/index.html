@@ -75,13 +75,17 @@
 <section class="ftco-section ftco-no-pt">
     <div class="container">
         <div class="row">
+            {% if request.user.is_authenticated %}
+            
             <div class="col-lg-9">
                 <div class="row">
+                   
                     <div class="col-md-12 heading-section ftco-animate">
                         <h2 class="mb-4"><span>My Posts</span></h2>
                     </div>
                 </div>
                 <div class="row">
+                    {% if user.stories.all %}
                     {% for story in user.stories.all %}
                     <div class="col-md-4 ftco-animate">
                         <div class="blog-entry">
@@ -96,8 +100,18 @@
                         </div>
                     </div>
                     {% endfor %}
+                    {% else %}
+            <div class="col-lg-9">
+                <p>Your stories and recipes will be shown here! </p>
+            </div>
+            {% endif %}
+                    
                 </div>
             </div>
+           
+
+             {% else %}
+                {% endif %}
 
             <div class="col-lg-3">
                 {% include 'includes/me.html' %}
@@ -229,4 +243,5 @@
         </div>
     </div>
 </section>
+
 {% endblock %}

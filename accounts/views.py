@@ -4,23 +4,36 @@ from django.views.generic import CreateView, UpdateView
 from accounts.forms import *
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView
 from django.urls import reverse_lazy
+from core.models import *
 
 class RegisterView(CreateView):
     template_name = "register.html"
     model = User
     form_class = RegisterForm
-    success_url = '/'
+    success_url = reverse_lazy('accounts:login')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
+    
 
 class Login(LoginView):
     template_name = "login.html"
     form_class = LoginForm
     success_url = '/'
     model = User
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
+
 
 def profile(request, id):
+    categories = Category.objects.all()
     user = User.objects.get(id=id)
     context  = {
         'user' : user,
+        'categories':categories
     }
     return render(request, 'user-profile.html', context)
 

@@ -38,6 +38,7 @@
                         
                     </div>
                 </div>
+
                 <div class="col-lg-9">
                     <div class="row">
                         <div class="col-md-12 heading-section ftco-animate">
@@ -45,6 +46,7 @@
                         </div>
                     </div>
                     <div class="row">
+                        {% if user.stories.all %}
                         {% for story in user.stories.all %}
                         <div class="col-md-4 ftco-animate">
                             <div class="blog-entry">
@@ -67,9 +69,13 @@
                             </div>
                         </div>
                         {% endfor %}
+                        {% else %}
+                <p>Your stories and recipes will be shown here!</p>
+                {% endif %}
                         <div class="col-md-12 heading-section ftco-animate">
                             <h2 class="mb-4" id="resept"><span>My recipes</span></h2>
                         </div>
+                        {% if user.recipes.all %}
                         {% for recipe in user.recipes.all %}
                         <div class="col-md-4 ftco-animate">
                             <div class="blog-entry">
@@ -94,6 +100,9 @@
                         {% endfor %}
                     </div>
                 </div>
+                {% else %}
+                <p>Your stories and recipes will be shown here!</p>
+                {% endif %}
 
 
             </div>
